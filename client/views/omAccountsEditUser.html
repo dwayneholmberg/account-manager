@@ -1,0 +1,59 @@
+<template name="omAccountsEditUser">
+  {{# if isReady 'oneUser'}}
+    {{#with user}}
+      <h1>{{profile.name}}</h1>
+      <p>
+      Account created {{createdAt}}
+      </p>
+      <div id="alert" class="alert alert-success omAccountManager-hide" role="alert"></div>
+      <form>
+        <div class="form-group">
+          <label class="control-label" for="name">Name</label>
+          <input type="name" class="form-control" id="name" placeholder="Name (first last)" value="{{profile.name}}">
+        </div>
+
+        <div class="form-group">
+          <label class="control-label" for="email">Email address</label>
+          <input type="email" class="form-control" id="email" placeholder="Email" value="{{emails.[0].address}}">
+        </div>
+
+        <div class="checkbox">
+          <label class="control-label" for="active" aria-described-by="activeHelp">
+            <input type="checkbox" id="active" {{checkActive user}}>
+            Active
+          </label>
+        </div>
+        <span id="activeHelp" class="help-block">
+          Inactive accounts cannot be used to log in.
+        </span>
+
+        <fieldset>
+          <legend>Roles</legend>
+
+          <div class="checkbox">
+            {{#each roles}}
+              {{> omAccountsEditUserRoles}}
+            {{/each}}
+          </div>
+        </fieldset>
+
+        <button type="submit" id="saveUser" class="btn btn-default">Save</button>
+      </form>
+    {{/with}}
+  {{else}}
+    Loading...
+  {{/if}}
+
+</template>
+
+<template name="omAccountsEditUserRoles">
+  <div id="{{role}}Container">
+    <label class="control-label" for="{{role}}" aria-described-by="{{role}}Help">
+      <input type="checkbox" id="{{role}}Role" {{checkRole ../roles role}}>
+      {{label}}
+    </label>
+  </div>
+  <span id="{{role}}Help" class="help-block">
+    {{helpText}}
+  </span>
+</template>

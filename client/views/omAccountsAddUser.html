@@ -1,0 +1,38 @@
+<template name="omAccountsAddUser">
+  <h1>Add User</h1>
+  <div id="alert" class="alert alert-success omAccountManager-hide" role="alert">...</div>
+  <form>
+    <div class="form-group">
+      <label class="control-label" for="name">Name</label>
+      <input type="name" class="form-control" id="name" placeholder="Name (first last)">
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="email">Email address</label>
+      <input type="email" class="form-control" id="email" placeholder="Email">
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="password">Password</label>
+      <input type="text" class="form-control" id="password" placeholder="Password">
+    </div>
+
+    <div class="checkbox">
+      {{#each roles}}
+        {{> omAccountsAddUserRoles}}
+      {{/each}}
+    </div>
+
+    <button type="submit" id="saveUser" class="btn btn-default">Save</button>
+  </form>
+</template>
+
+<template name="omAccountsAddUserRoles">
+  <div id="{{role}}Container">
+    <label class="control-label" for="{{role}}" aria-described-by="{{role}}Help">
+      <input type="checkbox" id="{{role}}Role">
+      {{label}}
+    </label>
+  </div>
+  <span id="{{role}}Help" class="help-block">
+    {{helpText}}
+  </span>
+</template>

@@ -1,0 +1,30 @@
+<template name="omAccountsUsers">
+  <div class="list-group">
+  {{#each users}}
+    {{> omAccountsUsersUser }}
+  {{/each}}
+  </div>
+</template>
+
+<template name="omAccountsUsersUser">
+  <a href="{{pathFor ../editUserRoute _id=_id}}" class="list-group-item">
+    <b>{{profile.name}}</b>
+    {{#if roles}}
+      {{#each roles}}
+        <span class="badge">
+          {{roleLabel this}}
+        </span>
+      {{/each}}
+    {{/if}}
+    <p>
+    {{#each emails}}
+      {{this.address}}
+    {{/each}}
+    </p>
+    {{#if active}}
+      <span class="label label-success">Active</span>
+    {{else}}
+      <span class="label label-default">Inactive</span>
+    {{/if}}
+  </a>
+</template>
