@@ -28,6 +28,10 @@ Meteor.methods({
    *  },
    *  active: true // added here
    * };
+   *
+   * Note that all users will belong to the "default" group.
+   * This confers to special privileges, but allows for access
+   * to functionality that is not group-constrained
    */
   omAccountManagerAddUser: function(user, roles, groups) {
 
@@ -37,6 +41,8 @@ Meteor.methods({
       !Roles.userIsInRole(loggedInUser, OmAccountManager.config.userManagerRoles)) {
       throw new Meteor.Error('not-authorized', 'Insufficient privileges to add a user');
     }
+
+    groups.push('default');
 
     user.active = true;
     var id = Accounts.createUser(user);
