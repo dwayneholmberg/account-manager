@@ -156,6 +156,9 @@ Template.omAccountsAddUser.events({
           $('#alert').removeClass('alert-success');
           $('#alert').addClass('alert-danger');
           $('#alert').removeClass('omAccountManager-hide');
+
+          $("html, body").animate({ scrollTop: 0 }, "slow");
+
           return false;
         }
 
