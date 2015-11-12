@@ -142,7 +142,7 @@ Template.omAccountsAddUser.events({
 
       var groups = [];
       if (document.getElementById('global').checked) {
-        groups = Roles.GLOBAL_GROUP;
+        groups.push(Roles.GLOBAL_GROUP);
       } else {
         $('#groups input:checked').each(function() {
           groups.push($(this).attr('value'));

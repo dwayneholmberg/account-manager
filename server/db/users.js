@@ -41,11 +41,9 @@ Meteor.methods({
     user.active = true;
     var id = Accounts.createUser(user);
 
-    if (groups === Roles.GLOBAL_GROUP) {
-      Roles.addUsersToRoles(id, roles, ROLES.GLOBAL_GROUP);
-    } else {
-      Roles.addUsersToRoles(id, roles, groups);
-    }
+    groups.forEach(function (group) {
+      Roles.addUsersToRoles(id, roles, group);
+    });
 
     return id;
   },
