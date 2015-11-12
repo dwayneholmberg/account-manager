@@ -15,11 +15,33 @@
       <input type="text" class="form-control" id="password" placeholder="Password">
     </div>
 
-    <div class="checkbox">
-      {{#each roles}}
-        {{> omAccountsAddUserRoles}}
-      {{/each}}
-    </div>
+    <fieldset>
+      <legend>Roles</legend>
+      <div class="checkbox">
+        {{#each roles}}
+          {{> omAccountsAddUserRoles}}
+        {{/each}}
+      </div>
+    </fieldset>
+
+    {{#if hasGroups}}
+      <fieldset>
+        <legend>Groups</legend>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" id="global" value="global">
+            <b>Global:</b> access to all current and future groups
+          </label>
+        </div>
+        <div id="groups">
+          {{#each groups}}
+            {{> omAccountsAddUserGroups}}
+          {{/each}}
+        </div>
+      </fieldset>
+    {{else}}
+      <p>No groups configured</p>
+    {{/if}}
 
     <button type="submit" id="saveUser" class="btn btn-default">Save</button>
   </form>
@@ -35,4 +57,13 @@
   <span id="{{role}}Help" class="help-block">
     {{helpText}}
   </span>
+</template>
+
+<template name="omAccountsAddUserGroups">
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" value="{{this}}">
+      {{this}}
+    </label>
+  </div>
 </template>

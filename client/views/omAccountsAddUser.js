@@ -7,10 +7,21 @@ Template.omAccountsAddUser.created = function (){
   self.roles = new ReactiveVar([]);
 
   Meteor.call('omAccountsGetRoles', function (err, result) {
-    if (err)
+    if (err) {
       console.log(err);
-    else 
+    } else  {
       self.roles.set(result);
+    }
+  });
+
+  self.groups = new ReactiveVar([]);
+
+  Meteor.call('omAccountsGetGroups', function (err, result) {
+    if (err) {
+      console.log(err);
+    } else {
+      self.groups.set(result);
+    }
   });
 };
 
@@ -18,7 +29,15 @@ Template.omAccountsAddUser.created = function (){
 Template.omAccountsAddUser.helpers({
   roles: function() {
     return Template.instance().roles.get();
-  }
+  },
+
+  hasGroups: function() {
+    return Template.instance().groups.get().length;
+  },
+
+  groups: function() {
+    return Template.instance().groups.get();
+  },
 });
 
 Template.omAccountsAddUser.events({
@@ -96,7 +115,7 @@ Template.omAccountsAddUser.events({
       $('#password').parent().addClass('has-success');
     }
 
-    if (hasError) {
+    if (hasError && 0) {
       $('#alert').html('<p>It looks like something wasn\'t filled out correctly. Have a look and try again.</p>');
       $('#alert').removeClass('alert-success');
       $('#alert').addClass('alert-danger');
@@ -121,7 +140,16 @@ Template.omAccountsAddUser.events({
        }
       });
 
-      Meteor.call('omAccountManagerAddUser', user, roles, function (err, result) {
+      var groups = [];
+      if (document.getElementById('global').checked) {
+        groups = Roles.GLOBAL_GROUP;
+      } else {
+        $('#groups input:checked').each(function() {
+          groups.push($(this).attr('value'));
+        });
+      }
+
+      Meteor.call('omAccountManagerAddUser', user, roles, groups, function (err, result) {
 
         if (err) {
           $('#alert').html('<p>Error: ' + err.message + '</p>');

@@ -29,7 +29,7 @@ Meteor.methods({
    *  active: true // added here
    * };
    */
-  omAccountManagerAddUser: function(user, roles) {
+  omAccountManagerAddUser: function(user, roles, groups) {
 
     var loggedInUser = Meteor.user();
 
@@ -41,7 +41,11 @@ Meteor.methods({
     user.active = true;
     var id = Accounts.createUser(user);
 
-    Roles.addUsersToRoles(id, roles);
+    if (groups === Roles.GLOBAL_GROUP) {
+      Roles.addUsersToRoles(id, roles, ROLES.GLOBAL_GROUP);
+    } else {
+      Roles.addUsersToRoles(id, roles, groups);
+    }
 
     return id;
   },

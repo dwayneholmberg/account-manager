@@ -20,6 +20,10 @@ OmAccountManager = {
     this.config.roles = a;
   },
 
+  configureGroups: function (a) {
+    this.config.groups = a;
+  },
+
   canManageUsers: function (a) {
     this.config.userManagerRoles = a;
   },
@@ -41,7 +45,7 @@ OmAccountManager = {
     if (!Meteor.users.find().count()) {
       var id = Accounts.createUser(user);
 
-      Roles.addUsersToRoles(id, roles);
+      Roles.addUsersToRoles(id, roles, roles.GLOBAL_GROUP);
     }
   }
 };
