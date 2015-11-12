@@ -179,7 +179,4 @@ Template.omAccountsAddUser.events({
       });
     }
   },
-
-  'click #addMore': function (e) {
-  }
 });
