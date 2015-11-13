@@ -165,33 +165,6 @@ Template.omAccountsEditUser.events({
       $('#name').parent().removeClass('has-success');
       $('#password').parent().removeClass('has-success');
 
-/*
-      Meteor.call('omAccountManagerUpdateUser', user, roles, function (err, result) {
-
-        if (err) {
-          $('#alert').html('<p>Error: ' + err.message + '</p>');
-          $('#alert').removeClass('alert-success');
-          $('#alert').addClass('alert-danger');
-          $('#alert').removeClass('omAccountManager-hide');
-          return false;
-        }
-
-        $('#alert').html('<p>' + name + ' added</p>');
-        $('#alert').removeClass('alert-danger');
-        $('#alert').addClass('alert-success');
-        $('#alert').removeClass('omAccountManager-hide');
-
-        $('#email').parent().removeClass('has-success');
-        $('#name').parent().removeClass('has-success');
-        $('#password').parent().removeClass('has-success');
-
-        $('#email').val('');
-        $('#name').val('');
-        $('#password').val('');
-
-        $('#email').focus();
-      });
-*/
     }
   },
 
