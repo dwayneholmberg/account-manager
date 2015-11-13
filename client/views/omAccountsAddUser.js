@@ -175,6 +175,8 @@ Template.omAccountsAddUser.events({
         $('#name').val('');
         $('#password').val('');
 
+        $('input:checked').prop('checked', false);
+
         $('#email').focus();
       });
     }
