@@ -2,7 +2,7 @@ Meteor.users.allow({
   insert: function (userId, doc) {
     // are they authorized to manage users?
     if (userId &&
-      Roles.userIsInRole(userId, OmAccountManager.config.userManagerRoles)) {
+      Roles.userIsInRole(userId, OmAccountManager.config.userManagerRoles, Roles.GLOBAL_GROUP)) {
       return true;
     }
     return false;
@@ -11,7 +11,7 @@ Meteor.users.allow({
   update: function (userId, doc, fields, modifier) {
     // are they authorized to manage users?
     if (userId &&
-      Roles.userIsInRole(userId, OmAccountManager.config.userManagerRoles)) {
+      Roles.userIsInRole(userId, OmAccountManager.config.userManagerRoles, Roles.GLOBAL_GROUP)) {
       return true;
     }
     // is this their own record?
@@ -28,7 +28,7 @@ Meteor.users.allow({
   remove: function (userId, doc) {
     // are they authorized to manage users?
     if (userId &&
-      Roles.userIsInRole(userId, OmAccountManager.config.userManagerRoles)) {
+      Roles.userIsInRole(userId, OmAccountManager.config.userManagerRoles, Roles.GLOBAL_GROUP)) {
       return true;
     }
     return false;

@@ -38,7 +38,7 @@ Meteor.methods({
     var loggedInUser = Meteor.user();
 
     if (!loggedInUser ||
-      !Roles.userIsInRole(loggedInUser, OmAccountManager.config.userManagerRoles)) {
+      !Roles.userIsInRole(loggedInUser, OmAccountManager.config.userManagerRoles, Roles.GLOBAL_GROUP)) {
       throw new Meteor.Error('not-authorized', 'Insufficient privileges to add a user');
     }
 
