@@ -167,9 +167,6 @@ Template.omAccountsEditUser.events({
 
     }
   },
-
-  'click #addMore': function (e) {
-  }
 });
 
 Template.omAccountsEditUserRoles.helpers({
