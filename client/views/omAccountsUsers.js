@@ -51,4 +51,29 @@ Template.omAccountsUsersUser.helpers({
     }
   },
 
+  getGroups: function (obj) {
+    var groups = _.keys(obj);
+    // remove default group
+    groups = _.difference(groups, ['default']);
+
+    // clean up name for __global_group__
+    for (var i = 0; i < groups.length; i++) {
+      if (groups[i] === Roles.GLOBAL_GROUP) {
+        groups[i] = 'Global';
+      }
+    }
+    // the list-group-item class will float this right, inverting the display
+    return groups;
+  },
+
+  getRoles: function (groups) {
+    var roles = [];
+
+    _.each(groups, function (el, i, list) {
+      roles = _.difference(el, roles);
+    });
+
+    return roles;
+  }
+
 });

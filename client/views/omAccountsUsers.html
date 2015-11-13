@@ -8,23 +8,42 @@
 
 <template name="omAccountsUsersUser">
   <a href="{{pathFor ../editUserRoute _id=_id}}" class="list-group-item">
-    <b>{{profile.name}}</b>
-    {{#if roles}}
-      {{#each roles}}
-        <span class="badge">
-          {{roleLabel this}}
-        </span>
-      {{/each}}
-    {{/if}}
-    <p>
-    {{#each emails}}
-      {{this.address}}
-    {{/each}}
-    </p>
-    {{#if active}}
-      <span class="label label-success">Active</span>
-    {{else}}
-      <span class="label label-default">Inactive</span>
-    {{/if}}
+    <div class="row">
+      <div class="col-md-6">
+        <b>{{profile.name}}</b>
+      </div>
+
+      <div class="col-md-6" style="text-align:right">
+        {{#if roles}}
+          {{#each getRoles roles}}
+            <span class="label label-primary">{{roleLabel this}}</span>
+          {{/each}}
+        {{/if}}
+
+        {{#if roles}}
+          {{#each getGroups roles}}
+            <span class="label label-default">{{this}}</span>
+          {{/each}}
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        {{#each emails}}
+          {{this.address}}
+        {{/each}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        {{#if active}}
+          <span class="label label-success">Active</span>
+        {{else}}
+          <span class="label label-default">Inactive</span>
+        {{/if}}
+      </div>
+    </div>
   </a>
 </template>
