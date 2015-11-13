@@ -43,9 +43,10 @@ OmAccountManager = {
    */
   bootstrapAdminAccount: function (user, roles) {
     if (!Meteor.users.find().count()) {
+      console.log('OmAccountManager: bootstrapping admin account');
       var id = Accounts.createUser(user);
 
-      Roles.addUsersToRoles(id, roles, roles.GLOBAL_GROUP);
+      Roles.addUsersToRoles(id, roles, Roles.GLOBAL_GROUP);
     }
   }
 };
