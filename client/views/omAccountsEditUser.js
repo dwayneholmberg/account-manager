@@ -15,18 +15,44 @@ Template.omAccountsEditUser.created = function (){
   self.roles = new ReactiveVar([]);
 
   Meteor.call('omAccountsGetRoles', function (err, result) {
-    if (err)
+    if (err) {
       console.log(err);
-    else 
+    } else  {
       self.roles.set(result);
+    }
+  });
+
+  self.groups = new ReactiveVar([]);
+
+  Meteor.call('omAccountsGetGroups', function (err, result) {
+    if (err) {
+      console.log(err);
+    } else {
+      self.groups.set(result);
+    }
   });
 };
 
 
 var emailCounter = 0;
+
 Template.omAccountsEditUser.helpers({
-  roles: function () {
+  getConfiguredRoles: function () {
     return Template.instance().roles.get();
+  },
+
+  getConfiguredGroups: function () {
+    return Template.instance().groups.get();
+  },
+
+  checkGlobal: function () {
+    var roles = Roles.getRolesForUser(Template.instance()._id, Roles.GLOBAL_GROUPS);
+
+    if (roles.length) {
+      return 'checked';
+    } else {
+      return '';
+    }
   },
 
   isReady: function (sub) {
@@ -125,23 +151,40 @@ Template.omAccountsEditUser.events({
       $('#alert').removeClass('omAccountManager-hide');
     } else {
 
-      var user = {
-        email: email,
-        password: password,
-        profile: {
-          name: name
-        }
-      };
-
-      var cfg_roles =  Template.instance().roles.get();
+      var cfgRoles =  Template.instance().roles.get();
       var roles = [];
 
-      cfg_roles.forEach(function (role) {
+      cfgRoles.forEach(function (role) {
         var id = '#' + role.role + 'Role';
         if ($(id).is(':checked')) {
           roles.push(role.role);
        }
       });
+
+      var cfgGroups =  Template.instance().groups.get();
+      var groups = ['default'];
+
+      if ($('#global').is(':checked')) {
+        groups.push(Roles.GLOBAL_GROUP);
+     }
+
+      cfgGroups.forEach(function (group) {
+        var id = '#' + 'group' + _.indexOf(cfgGroups, group);
+        if ($(id).is(':checked')) {
+          groups.push(group);
+       }
+      });
+
+      var user = {
+        email: email,
+        password: password,
+        profile: {
+          name: name
+        },
+        cachedRoles: roles,
+        cachedGroups: groups
+      };
+
 
       user.active = $('#active').is(':checked');
 
@@ -151,10 +194,22 @@ Template.omAccountsEditUser.events({
           $('#alert').removeClass('alert-success');
           $('#alert').addClass('alert-danger');
           $('#alert').removeClass('omAccountManager-hide');
+
+          $("html, body").animate({ scrollTop: 0 }, "slow");
           return false;
         }
       });
-      Roles.setUserRoles(_id, roles);
+
+      cfgGroups.forEach(function (group) {
+        Roles.setUserRoles(_id, [], group);
+      });
+
+      groups.forEach(function (group) {
+        Roles.addUsersToRoles(_id, roles, group);
+      });
+
+      Meteor.users.update({_id: _id}, {$set: {cachedRoles:roles} });
+      Meteor.users.update({_id: _id}, {$set: {cachedGroups:groups} });
 
       $('#alert').html('<p>' + name + ' updated.</p>');
       $('#alert').removeClass('alert-danger');
@@ -165,12 +220,53 @@ Template.omAccountsEditUser.events({
       $('#name').parent().removeClass('has-success');
       $('#password').parent().removeClass('has-success');
 
+      $("html, body").animate({ scrollTop: 0 }, "slow");
     }
   },
 });
 
 Template.omAccountsEditUserRoles.helpers({
-  checkRole: function (roles, role) {
-    return _.indexOf(roles, role) === -1 ? '' : 'checked';
+  checkRole: function (groups, role) {
+    var roles = [];
+
+    _.each(groups, function (els) {
+      _.each(els, function (el) {
+        roles.push(el);
+      });
+    });
+    roles = _.uniq(roles);
+
+    if (_.contains(roles, role)) {
+      return 'checked';
+    } else {
+      return '';
+    }
   },
+});
+
+Template.omAccountsEditUserGroups.created = function (){
+  var self = this;
+
+  self.groups = new ReactiveVar([]);
+
+  Meteor.call('omAccountsGetGroups', function (err, result) {
+    if (err) {
+      console.log(err);
+    } else {
+      self.groups.set(result);
+    }
+  });
+};
+Template.omAccountsEditUserGroups.helpers({
+  groupIndex: function (group) {
+    return _.indexOf(Template.instance().groups.get(), group);
+  },
+
+  checkGroup: function (groups, group) {
+    if (_.contains(groups, group)) {
+      return 'checked';
+    } else {
+      return '';
+    }
+  }
 });

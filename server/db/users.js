@@ -51,6 +51,9 @@ Meteor.methods({
       Roles.addUsersToRoles(id, roles, group);
     });
 
+    Meteor.users.update({_id: id}, {$set: {cachedRoles:roles} });
+    Meteor.users.update({_id: id}, {$set: {cachedGroups:groups} });
+
     return id;
   },
 

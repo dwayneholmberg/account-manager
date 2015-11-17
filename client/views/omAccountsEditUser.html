@@ -1,5 +1,5 @@
 <template name="omAccountsEditUser">
-  {{# if isReady 'oneUser'}}
+  {{#if isReady 'oneUser'}}
     {{#with user}}
       <h1>{{profile.name}}</h1>
       <p>
@@ -31,9 +31,24 @@
           <legend>Roles</legend>
 
           <div class="checkbox">
-            {{#each roles}}
-              {{> omAccountsEditUserRoles}}
-            {{/each}}
+          {{#each getConfiguredRoles}}
+            {{> omAccountsEditUserRoles}}
+          {{/each}}
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Groups</legend>
+          <div class="checkbox">
+            <div>
+              <label>
+                <input type="checkbox" id="global" value="global" {{checkGlobal roles}}>
+                <b>Global:</b> access to all current and future groups
+              </label>
+            </div>
+          {{#each getConfiguredGroups}}
+            {{> omAccountsEditUserGroups}}
+          {{/each}}
           </div>
         </fieldset>
 
@@ -56,4 +71,13 @@
   <span id="{{role}}Help" class="help-block">
     {{helpText}}
   </span>
+</template>
+
+<template name="omAccountsEditUserGroups">
+  <div>
+    <label class="control-label" for="group{{groupIndex this}}">
+      <input type="checkbox" id="group{{groupIndex this}}" value="{{this}}" {{checkGroup ../cachedGroups this}}>
+      {{this}}
+    </label>
+  </div>
 </template>

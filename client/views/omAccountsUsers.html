@@ -14,14 +14,12 @@
       </div>
 
       <div class="col-md-6" style="text-align:right">
-        {{#if roles}}
-          {{#each getRoles roles}}
-            <span class="label label-primary">{{roleLabel this}}</span>
-          {{/each}}
-        {{/if}}
+        {{#each cleanRoles cachedRoles}}
+          <span class="label label-primary">{{roleLabel this}}</span>
+        {{/each}}
 
-        {{#if roles}}
-          {{#each getGroups roles}}
+        {{#if displayGroups cachedGroups}}
+          {{#each cleanGroups cachedGroups}}
             <span class="label label-default">{{this}}</span>
           {{/each}}
         {{/if}}

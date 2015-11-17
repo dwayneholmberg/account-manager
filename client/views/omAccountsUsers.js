@@ -10,10 +10,11 @@ Template.omAccountsUsersUser.onCreated(function () {
   self.roles = new ReactiveVar([]);
 
   Meteor.call('omAccountsGetRoles', function (err, result) {
-    if (err)
+    if (err) {
       console.log(err);
-    else 
+    } else  {
       self.roles.set(result);
+    }
   });
 });
 
@@ -51,29 +52,29 @@ Template.omAccountsUsersUser.helpers({
     }
   },
 
-  getGroups: function (obj) {
-    var groups = _.keys(obj);
-    // remove default group
-    groups = _.difference(groups, ['default']);
+  // don't display if the only group is 'default'
+  displayGroups: function (groups) {
+    if (!groups) {
+      return false;
+    } else if (groups.length === 1 && groups[0] === 'default'){
+      return false;
+    } else {
+      return true;
+    }
+  },
+  cleanGroups: function (groups) {
 
-    // clean up name for __global_group__
     for (var i = 0; i < groups.length; i++) {
       if (groups[i] === Roles.GLOBAL_GROUP) {
         groups[i] = 'Global';
       }
     }
-    // the list-group-item class will float this right, inverting the display
-    return groups;
+
+    return _.filter(groups, function (el) {
+      return el !== 'default';
+    }).sort();
   },
-
-  getRoles: function (groups) {
-    var roles = [];
-
-    _.each(groups, function (el, i, list) {
-      roles = _.difference(el, roles);
-    });
-
-    return roles;
-  }
-
+  cleanRoles: function (roles) {
+    return roles ? roles.sort() : [];
+  },
 });
