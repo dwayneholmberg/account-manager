@@ -200,9 +200,13 @@ Template.omAccountsEditUser.events({
         }
       });
 
+      // remove user from all roles in all groups, then add the roles back.
       cfgGroups.forEach(function (group) {
         Roles.setUserRoles(_id, [], group);
       });
+      // also remove from global and default
+      Roles.setUserRoles(_id, [], Roles.GLOBAL_GROUP);
+      Roles.setUserRoles(_id, [], 'default');
 
       groups.forEach(function (group) {
         Roles.addUsersToRoles(_id, roles, group);
