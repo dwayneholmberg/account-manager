@@ -54,4 +54,5 @@ Meteor.publish(null, function () {
     Roles.userIsInRole(this.userId, OmAccountManager.config.userManagerRoles)) {
     return Meteor.roles.find({});
   }
+  this.ready();
 });
