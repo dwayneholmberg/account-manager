@@ -47,6 +47,8 @@ OmAccountManager = {
       var id = Accounts.createUser(user);
 
       Roles.addUsersToRoles(id, roles, Roles.GLOBAL_GROUP);
+      return id;
     }
+    return false;
   }
 };
