@@ -64,7 +64,6 @@ Meteor.methods({
     // only allow if they have user management permissions
     if (this.userId &&
       Roles.userIsInRole(this.userId, OmAccountManager.config.userManagerRoles, Roles.GLOBAL_GROUP)) {
-      console.log('can update');
 
       // remove user from all roles in all groups, then add the roles back.
       var cfgGroups = OmAccountManager.config.groups;
@@ -84,7 +83,6 @@ Meteor.methods({
       Meteor.users.update({_id: userId}, {$set: {cachedGroups:groups} });
       return true;
     } else {
-      console.log('unable to update');
       return false;
     }
   },
