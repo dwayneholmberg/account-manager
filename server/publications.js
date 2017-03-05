@@ -4,7 +4,15 @@ Meteor.publish('OmAccountManagerUsers', function() {
   if (this.userId &&
     Roles.userIsInRole(this.userId, OmAccountManager.config.userManagerRoles)) {
 
-    return Meteor.users.find({}, {
+    return Meteor.users.find({
+      cachedRoles: {
+        $in: [
+          'staff',
+          'branchHumanResources',
+          'hqHumanResources'
+        ]
+      }
+    }, {
       fields: {
         'username':1, 'profile':1, 'createdAt':1, 'emails':1, 'roles':1,
         'cachedRoles':1, 'cachedGroups':1, 'active':1
