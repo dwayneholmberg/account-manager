@@ -54,6 +54,8 @@ Meteor.methods({
     Meteor.users.update({_id: id}, {$set: {cachedRoles:roles} });
     Meteor.users.update({_id: id}, {$set: {cachedGroups:groups} });
 
+    Accounts.sendEnrollmentEmail(id);
+
     return id;
   },
 
