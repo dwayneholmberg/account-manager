@@ -67,24 +67,12 @@ Template.omAccountsAddUser.events({
     }
   },
 
-  'change #password': function (e) {
-    var password = $('#password').val();
-
-    if (!password) {
-      $(e.target).parent().addClass('has-error');
-    } else {
-      $(e.target).parent().removeClass('has-error');
-      $(e.target).parent().addClass('has-success');
-    }
-  },
-
   'click #saveUser': function(e) {
 
     e.preventDefault();
 
     var name = $('#name').val();
     var email = $('#email').val();
-    var password = $('#password').val();
 
     var hasError = false;
 
@@ -107,14 +95,6 @@ Template.omAccountsAddUser.events({
       $('#name').parent().addClass('has-success');
     }
 
-    if (!password) {
-      $('#password').parent().addClass('has-error');
-      hasError = true;
-    } else {
-      $('#password').parent().removeClass('has-error');
-      $('#password').parent().addClass('has-success');
-    }
-
     if (hasError) {
       $('#alert').html('<p>It looks like something wasn\'t filled out correctly. Have a look and try again.</p>');
       $('#alert').removeClass('alert-success');
@@ -124,7 +104,6 @@ Template.omAccountsAddUser.events({
 
       var user = {
         email: email,
-        password: password,
         profile: {
           name: name
         }
@@ -169,11 +148,9 @@ Template.omAccountsAddUser.events({
 
         $('#email').parent().removeClass('has-success');
         $('#name').parent().removeClass('has-success');
-        $('#password').parent().removeClass('has-success');
 
         $('#email').val('');
         $('#name').val('');
-        $('#password').val('');
 
         $('input:checked').prop('checked', false);
 
