@@ -122,11 +122,10 @@ Template.omAccountsAddUser.events({
       var groups = [];
       if (document.getElementById('global').checked) {
         groups.push(Roles.GLOBAL_GROUP);
-      } else {
-        $('#groups input:checked').each(function() {
-          groups.push($(this).attr('value'));
-        });
       }
+      $('#groups input:checked').each(function() {
+        groups.push($(this).attr('value'));
+      });
 
       Meteor.call('omAccountManagerAddUser', user, roles, groups, function (err, result) {
 
