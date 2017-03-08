@@ -102,17 +102,6 @@ Template.omAccountsEditUser.events({
     }
   },
 
-  'change #password': function (e) {
-    var password = $('#password').val();
-
-    if (!password) {
-      $(e.target).parent().addClass('has-error');
-    } else {
-      $(e.target).parent().removeClass('has-error');
-      $(e.target).parent().addClass('has-success');
-    }
-  },
-
   'click #saveUser': function(e) {
 
     e.preventDefault();
@@ -121,7 +110,6 @@ Template.omAccountsEditUser.events({
 
     var name = $('#name').val();
     var email = $('#email').val();
-    var password = $('#password').val();
 
     var hasError = false;
 
@@ -177,7 +165,6 @@ Template.omAccountsEditUser.events({
 
       var user = {
         email: email,
-        password: password,
         profile: {
           name: name
         },
@@ -209,7 +196,6 @@ Template.omAccountsEditUser.events({
 
       $('#email').parent().removeClass('has-success');
       $('#name').parent().removeClass('has-success');
-      $('#password').parent().removeClass('has-success');
 
       $("html, body").animate({ scrollTop: 0 }, "slow");
     }
