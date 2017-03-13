@@ -88,4 +88,15 @@ Meteor.methods({
       return false;
     }
   },
+
+  omAccountsManagerSendEnrollmentEmail: function (id) {
+    // only allow if they have user management permissions
+    if (this.userId &&
+      Roles.userIsInRole(this.userId, OmAccountManager.config.userManagerRoles, Roles.GLOBAL_GROUP)) {
+ 
+      Accounts.sendEnrollmentEmail(id);
+    } else {
+      throw new Meteor.Error('not-auth', 'Insufficient privileges');
+    }
+  },
 });

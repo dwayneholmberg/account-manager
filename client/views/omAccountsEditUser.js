@@ -102,6 +102,21 @@ Template.omAccountsEditUser.events({
     }
   },
 
+  'click #sendEnrollmentEmail': function (e, template) {
+    let _id = Template.instance()._id;
+    Meteor.call('omAccountsManagerSendEnrollmentEmail', _id, function () {
+      $('#alert').html('<p>Enrollment email sent.</p>');
+      $('#alert').removeClass('alert-danger');
+      $('#alert').addClass('alert-success');
+      $('#alert').removeClass('omAccountManager-hide');
+
+      $('#email').parent().removeClass('has-success');
+      $('#name').parent().removeClass('has-success');
+
+      $("html, body").animate({ scrollTop: 0 }, "slow");
+    });
+  },
+
   'click #saveUser': function(e) {
 
     e.preventDefault();
